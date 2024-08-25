@@ -10,7 +10,7 @@ Feel free to explore, contribute, or use these materials for educational and res
 
 - **`Portafolio de Análisis/`**
   - **`Retroalimentación/`**
-     - **`Momento 1 - Análisis del Contexto y la Normatividad.pdf/`**:
+     - **`Momento 1 - Análisis del Contexto y la Normatividad/`**:
        - **`Momento 1 - Análisis del Contexto y la Normatividad.pdf`**
 
 - **`Portafolio de Implementación/`**
