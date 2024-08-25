@@ -8,6 +8,11 @@ Feel free to explore, contribute, or use these materials for educational and res
 
 - **`Reto/`**: This folder contains the source code for the challenge.
 
+- **`Portafolio de Análisis/`**
+  - **`Retroalimentación/`**
+     - **`Momento 1 - Análisis del Contexto y la Normatividad.pdf/`**:
+       - **'Momento 1 - Análisis del Contexto y la Normatividad.pdf'**
+
 - **`Portafolio de Implementación/`**
   - **`Retroalimentación/`**
     - **`Momento 1 - Módulo 2 ML sin FW/`**: This subfolder is dedicated to the feedback moment of Module 2, where the task was to implement a machine learning technique without using any frameworks. Inside this folder, you will find the following files:
