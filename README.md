@@ -19,6 +19,10 @@ Feel free to explore, contribute, or use these materials for educational and res
       - **`M1_Retro_Mod2_Sin_FW.pdf`**
       - **`M1_Retro_Mod2_Sin_FW.ipynb`**
       - **`M1_Retro_Mod2_Sin_FW.html`**
+    - **`Momento 2 - Módulo 2 ML con FW/`**: This subfolder is dedicated to the feedback moment of Module 2, where the task was to implement a machine learning technique using frameworks. Inside this folder, you will find the following files:
+      - **`M2_Retro_Mod2_Con_FW.pdf`**
+      - **`M2_Retro_Mod2_Con_FW.ipynb`**
+      - **`M2_Retro_Mod2_Con_FW.html`**
 
     These files include the implementation of a logistic regression model from scratch, prepared for the feedback session that my professor will review.
 
