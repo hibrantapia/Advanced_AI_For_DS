@@ -6,7 +6,7 @@ Feel free to explore, contribute, or use these materials for educational and res
 
 ## Directory Structure
 
-- **`Reto/`**: This folder contains the source code for the challenge.
+- **`Reto/`**: This folder contains the source code for the main challenge.
 
 - **`Portafolio de Análisis/`**
   - **`Retroalimentación/`**
