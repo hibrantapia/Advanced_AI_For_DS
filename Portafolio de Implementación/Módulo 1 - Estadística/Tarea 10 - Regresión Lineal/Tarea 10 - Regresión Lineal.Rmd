@@ -1,0 +1,205 @@
+---
+title: "Tarea 10 - Regresión Lineal"
+author: "Héctor Hibran Tapia Fernández - A01661114"
+date: "2024-09-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Obtén la matriz de correlación de los datos que se te proporcionan. Interpreta.
+
+```{r}
+df = read.csv("./Estatura-peso_HyM.csv")
+df_numerico <- df[sapply(df, is.numeric)]
+matriz_correlacion <- cor(df_numerico, use = "complete.obs")
+print(matriz_correlacion)
+```
+
+La matriz muestra la relación (lineal) que tienen dos variables, 1 es una relación (lineal) perfecta y 0 sería que no tienen relación (lineal) y valores negativos sería que serían que tenine una relación (lineal) negativa.
+
+Ambas variables tienen una relación (lineal) positiva muy fuerte lo que dice que están relacionandas y dando sentido a los números es verdad, la estatura tiene que ver mucho con el peso y el peso con la estatura.
+
+## 2. Obtén medidas (media, desviación estándar, etc) que te ayuden a analizar los datos.
+
+```{r}
+df_hombres = subset(df, df$Sexo == "H")
+df_mujeres = subset(df, df$Sexo == "M")
+
+df_medidas = data.frame(
+  "H-Estatura" = df_hombres$Estatura,
+  "H-Peso" = df_hombres$Peso,
+  "M-Estatura" = df_mujeres$Estatura,
+  "M-Peso" = df_mujeres$Peso
+)
+
+n = 4
+
+d = matrix(NA, ncol = 8, nrow = n)
+
+for (i in 1:n) {
+  d[i, ] <- c(
+    as.numeric(summary(df_medidas[, i])),
+    sd(df_medidas[, i]),
+    sd(df_medidas[, i]) / mean(df_medidas[, i])
+  )
+}
+
+medidas = as.data.frame(d)
+row.names(medidas) = c("H-Estatura", "H-Peso", "M-Estatura", "M-Peso")
+names(medidas) = c("Minimo", "Q1", "Mediana", "Media", "Q3", "Máximo", "Desv Est", "CV")
+print(medidas)
+```
+
+```{r}
+boxplot(df$Estatura~df$Sexo, ylab="Estatura", xlab="", col=c("blue","pink"), names=c("Hombres", "Mujeres"), main="Estatura")
+```
+
+```{r}
+boxplot(df$Peso ~ df$Sexo, ylab = "Peso", xlab = "", names = c("Hombres", "Mujeres"), col = c("blue", "pink"), main = "Peso")
+```
+
+## 3. Encuentra la ecuación de regresión de mejor ajuste haciendo el ajuste por separado para Hombres y Mujeres por separado e incluyendo hombres y mujeres como variable Dummy. Para los 3 modelos:
+
+### 3.1 Realiza la regresión entre las variables involucradas.
+
+```{r}
+Modelo1H = lm(Peso ~ Estatura, data = df_hombres)
+Modelo1H
+```
+
+```{r}
+Modelo1M = lm(Peso ~ Estatura, data = df_mujeres)
+Modelo1M
+```
+Hipótesis:
+
+- $H_0: \beta_1 = 0$
+- $H_1: \beta_1 \neq 0$
+
+```{r}
+sH = summary(Modelo1H)
+print(sH)
+```
+
+
+```{r}
+sM = summary(Modelo1M)
+print(sM)
+```
+
+
+### 3.2 Significancia del modelo:
+
+- Valida la significancia del modelo con un alfa de 0.03 (incluye las hipótesis que pruebas)
+
+Para Hombres:
+
+```{r}
+p_valor <- sH$coefficients[2, 4]
+
+if (p_valor < 0.03) {cat("Se rechaza la hipótesis nula (H0). Hay evidencia suficiente para afirmar que existe una relación lineal significativa entre Estatura y Peso.\n")} else {cat("No se rechaza la hipótesis nula (H0). No hay evidencia suficiente para afirmar que existe una relación lineal significativa entre Estatura y Peso.\n")
+}
+```
+
+Para Mujeres:
+
+```{r}
+p_valor = sM$coefficients[2, 4]
+
+if (p_valor < 0.03) {cat("Se rechaza la hipótesis nula (H0). Hay evidencia suficiente para afirmar que existe una relación lineal significativa entre Estatura y Peso.\n")} else {cat("No se rechaza la hipótesis nula (H0). No hay evidencia suficiente para afirmar que existe una relación lineal significativa entre Estatura y Peso.\n")
+}
+```
+
+- Validala significancia de β̂i con un alfa de 0.03 (incluye las hipótesis que pruebas)
+
+Para Hombres:
+
+```{r}
+coeficientes <- sH$coefficients
+
+for (i in 1:nrow(coeficientes)) {
+  coeficiente <- coeficientes[i, 1]
+  error_estandar <- coeficientes[i, 2]
+  valor_t <- coeficientes[i, 3]
+  valor_p <- coeficientes[i, 4]
+  
+  cat(paste("Coeficiente:", rownames(coeficientes)[i], "\n"))
+  cat(paste("  Valor del coeficiente:", round(coeficiente, 4), "\n"))
+  cat(paste("  Error estándar:", round(error_estandar, 4), "\n"))
+  cat(paste("  Valor t:", round(valor_t, 4), "\n"))
+  cat(paste("  Valor p:", round(valor_p, 4), "\n"))
+  
+  if (valor_p < 0.03) {
+    cat("  Resultado: Se rechaza la hipótesis nula (H0). El coeficiente es significativo.\n\n")
+  } else {
+    cat("  Resultado: No se rechaza la hipótesis nula (H0). El coeficiente no es significativo.\n\n")
+  }
+}
+```
+
+Para Mujeres:
+
+```{r}
+coeficientes <- sM$coefficients
+
+for (i in 1:nrow(coeficientes)) {
+  coeficiente <- coeficientes[i, 1]
+  error_estandar <- coeficientes[i, 2]
+  valor_t <- coeficientes[i, 3]
+  valor_p <- coeficientes[i, 4]
+  
+  cat(paste("Coeficiente:", rownames(coeficientes)[i], "\n"))
+  cat(paste("  Valor del coeficiente:", round(coeficiente, 4), "\n"))
+  cat(paste("  Error estándar:", round(error_estandar, 4), "\n"))
+  cat(paste("  Valor t:", round(valor_t, 4), "\n"))
+  cat(paste("  Valor p:", round(valor_p, 4), "\n"))
+  
+  if (valor_p < 0.03) {
+    cat("  Resultado: Se rechaza la hipótesis nula (H0). El coeficiente es significativo.\n\n")
+  } else {
+    cat("  Resultado: No se rechaza la hipótesis nula (H0). El coeficiente no es significativo.\n\n")
+  }
+}
+```
+
+- Indica cuál es el porcentaje de variación explicada por el modelo.
+
+```{r}
+R2 = sH$r.squared
+porcentaje_variacion_explicada <- R2 * 100
+cat("Porcentaje de variación explicada por el modelo es:", round(porcentaje_variacion_explicada, 2), "%\n")
+```
+
+```{r}
+R2 = sM$r.squared
+porcentaje_variacion_explicada <- R2 * 100
+cat("Porcentaje de variación explicada por el modelo es:", round(porcentaje_variacion_explicada, 2), "%\n")
+```
+
+### 3.3 Dibuja el diagrama de dispersión de los datos y la recta de mejor ajuste.
+
+```{r}
+plot(df_hombres$Estatura, df_hombres$Peso, col = 'lightblue', main = "Estatura vs Peso \n Hombres", ylab = "Estatura", xlab = "Peso", pch = 19)
+abline(Modelo1H, col = 'red', lwd = 1.5)
+```
+
+```{r}
+plot(df_mujeres$Estatura, df_mujeres$Peso, col = 'pink2', main = "Estatura vs Peso \n Mujeres", ylab = "Estatura", xlab = "Peso", pch = 19)
+abline(Modelo1M, col = 'green4', lwd = 1.5)
+```
+
+```{r}
+plot(df_hombres$Estatura, df_hombres$Peso, col = 'blue', main = "Estatura vs Peso \n Hombres y Mujeres", ylab = "Peso", xlab = "Estatura", pch = 19, xlim = c(1.45, 1.80), ylim = c(40, 90))
+
+points(df_mujeres$Estatura, df_mujeres$Peso, col = 'pink2', pch = 19)
+
+abline(Modelo1H, col = 'blue', lwd = 2.5)
+abline(Modelo1M, col = 'pink', lwd = 2.5)
+```
+
+
+
+

@@ -1,0 +1,229 @@
+---
+title: "Tarea 12 - Regresión Lineal con Análisis de Errores"
+author: "Héctor Hibran Tapia Fernández - A01661114"
+date: "2024-09-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# El Validez del Modelo
+
+```{r}
+df = read.csv("./Estatura-peso_HyM.csv")
+
+df_hombres = subset(df, df$Sexo == "H")
+df_mujeres = subset(df, df$Sexo == "M")
+
+df_medidas = data.frame(
+  "H-Estatura" = df_hombres$Estatura,
+  "H-Peso" = df_hombres$Peso,
+  "M-Estatura" = df_mujeres$Estatura,
+  "M-Peso" = df_mujeres$Peso
+)
+```
+
+## Modelo 1.
+
+```{r}
+Modelo1H = lm(Peso ~ Estatura, data = df_hombres)
+Modelo1H
+```
+## Modelo 2.
+
+```{r}
+Modelo1M = lm(Peso ~ Estatura, data = df_mujeres)
+Modelo1M
+```
+## Modelo 3. 
+
+```{r}
+ModeloInter = lm(Peso ~ Estatura * Sexo, data = df)
+ModeloInter
+```
+## Modelo 4.
+
+```{r}
+ModelosinInter = lm(Peso ~ Estatura + Sexo, data = df)
+ModelosinInter
+```
+
+
+## 1. Analiza si el (los) modelo(s) obtenidos anteriormente son apropiados para el conjunto de datos.
+
+### Realiza el análisis de los residuos:
+
+### 1.1. Normalidad de los residuos
+
+```{r}
+library(nortest)
+ad.test(Modelo1H$residuals)
+ad.test(Modelo1M$residuals)
+ad.test(ModeloInter$residuals)
+ad.test(ModelosinInter$residuals)
+```
+
+```{r}
+par(mfrow = c(1,2))
+qqnorm(Modelo1H$residuals, main = "Q-Q Plot - Modelo1H")
+qqline(Modelo1H$residuals)
+hist(Modelo1H$residuals, freq = FALSE, main = "Modelo1H", xlab = "Residuals", ylab = "Density")
+lines(density(Modelo1H$residuals), col = "red")
+curve(dnorm(x, mean = mean(Modelo1H$residuals), sd=sd(Modelo1H$residuals)), add = TRUE, col = "blue", lwd = 2)
+par(mfrow = c(1,1))
+```
+
+```{r}
+par(mfrow = c(1,2))
+qqnorm(Modelo1M$residuals, main = "Q-Q Plot - Modelo1M")
+qqline(Modelo1M$residuals)
+hist(Modelo1M$residuals, freq = FALSE, main = "Modelo1M", xlab = "Residuals", ylab = "Density")
+lines(density(Modelo1M$residuals), col = "red")
+curve(dnorm(x, mean = mean(Modelo1H$residuals), sd = sd(Modelo1M$residuals)), add = TRUE, col = "blue", lwd = 2)
+par(mfrow = c(1,1))
+```
+
+```{r}
+par(mfrow = c(1,2))
+qqnorm(ModeloInter$residuals, main = "Q-Q Plot - ModeloInter")
+qqline(ModeloInter$residuals)
+hist(ModeloInter$residuals, freq = FALSE, main = "ModeloInter", xlab = "Residuals", ylab = "Density")
+lines(density(ModeloInter$residuals), col = "red")
+curve(dnorm(x, mean = mean(ModeloInter$residuals), sd = sd(ModeloInter$residuals)), add = TRUE, col = "blue", lwd = 2)
+par(mfrow = c(1,1))
+```
+
+```{r}
+par(mfrow = c(1,2))
+qqnorm(ModelosinInter$residuals, main = "Q-Q Plot - ModelosinInter")
+qqline(ModelosinInter$residuals)
+hist(ModelosinInter$residuals, freq = FALSE, main = "ModelosinInter", xlab = "Residuals", ylab = "Density")
+lines(density(ModelosinInter$residuals), col = "red")
+curve(dnorm(x, mean = mean(ModelosinInter$residuals), sd = sd(ModelosinInter$residuals)), add = TRUE, col = "blue", lwd = 2)
+par(mfrow = c(1,1))
+```
+
+
+### 1.2. Verificación de media cero
+
+```{r}
+t.test(Modelo1H$residuals)
+t.test(Modelo1M$residuals)
+t.test(ModeloInter$residuals)
+t.test(ModelosinInter$residuals)
+```
+
+### 1.3. Homocedasticidad e independencia
+
+```{r}
+plot(Modelo1H$fitted.values, Modelo1H$residuals,main = "Modelo1H",xlab = "Valores Ajustados",ylab = "Residuos")
+abline(h = 0, col = "blue")
+
+plot(Modelo1M$fitted.values, Modelo1M$residuals,main = "Modelo1M",xlab = "Valores Ajustados",ylab = "Residuos")
+abline(h = 0, col = "pink")
+
+plot(ModeloInter$fitted.values, ModeloInter$residuals,main = "ModeloInter",xlab = "Valores Ajustados",ylab = "Residuos")
+abline(h = 0, col = "purple")
+
+plot(ModelosinInter$fitted.values, ModelosinInter$residuals,main = "ModelosinInter",xlab = "Valores Ajustados",ylab = "Residuos")
+abline(h = 0, col = "purple")
+```
+
+## 2. No te olvides de incluir las hipótesis en la pruebas de hipótesis que realices.
+
+#### Test de Durbin-Watson y Prueba de Breusch-Godfrey
+
+- Hipótesis Nula (H₀): Los errores no están autocorrelacionados.
+- Hipótesis Alternativa (H₁): Los errores están autocorrelacionados.
+
+```{r}
+library(lmtest)
+
+dw_test_hombres = dwtest(Modelo1H)
+bg_test_hombres = bgtest(Modelo1H)
+print("Resultados para Modelo1H:")
+print(dw_test_hombres)
+print(bg_test_hombres)
+
+dw_test_mujeres = dwtest(Modelo1M)
+bg_test_mujeres = bgtest(Modelo1M)
+print("Resultados para Modelo1M:")
+print(dw_test_mujeres)
+print(bg_test_mujeres)
+
+dw_test_inter = dwtest(ModeloInter)
+bg_test_inter = bgtest(ModeloInter)
+print("Resultados para ModeloInter:")
+print(dw_test_inter)
+print(bg_test_inter)
+
+dw_test_inter = dwtest(ModelosinInter)
+bg_test_inter = bgtest(ModelosinInter)
+print("Resultados para ModelosinInter:")
+print(dw_test_inter)
+print(bg_test_inter)
+```
+
+### Prueba de Breusch-Pagan y White
+
+- H₀: La varianza de los errores es constante (homocedasticidad)
+- H₁: La varianza de los errores no es constante (heterocedasticidad)
+
+```{r}
+bp_test_hombres = bptest(Modelo1H)
+white_test_hombres = gqtest(Modelo1H)
+print("Resultados para Modelo1H:")
+print(bp_test_hombres)
+print(white_test_hombres)
+
+bp_test_mujeres = bptest(Modelo1M)
+white_test_mujeres = gqtest(Modelo1M)
+print("Resultados para Modelo1M:")
+print(bp_test_mujeres)
+print(white_test_mujeres)
+
+bp_test_inter = bptest(ModeloInter)
+white_test_inter = gqtest(ModeloInter)
+print("Resultados para ModeloInter:")
+print(bp_test_inter)
+print(white_test_inter)
+
+bp_test_inter = bptest(ModelosinInter)
+white_test_inter = gqtest(ModelosinInter)
+print("Resultados para ModelosinInter:")
+print(bp_test_inter)
+print(white_test_inter)
+```
+
+# Intervalos de Confianza
+
+### 1. Con los datos de las estaturas y pesos de los hombres y las mujeres construye la gráfica de los intervalos de confianza y predicción para la estimación y predicción de Y para el mejor modelo seleccionado.
+
+```{r}
+library(ggplot2)
+
+# Volvemos a traer nuestras variables para evitar errores de procesamiento.
+
+df_hombres = subset(df, df$Sexo == "H")
+df_mujeres = subset(df, df$Sexo == "M")
+
+Modelo1H = lm(Peso ~ Estatura, data = df_hombres)
+Modelo1M = lm(Peso ~ Estatura, data = df_mujeres)
+
+prediccion_hombres = predict(Modelo1H, interval = "prediction", level = 0.97)
+prediccion_mujeres = predict(Modelo1M, interval = "prediction", level = 0.97)
+
+df_hombres = cbind(df_hombres, prediccion_hombres)
+df_mujeres = cbind(df_mujeres, prediccion_mujeres)
+
+ggplot(df_mujeres, aes(x = Estatura, y = Peso)) + geom_point() + geom_line(aes(y = lwr), color = "red", linetype = "dashed") + geom_line(aes(y = upr), color = "red", linetype = "dashed") + geom_smooth(method = "lm", formula = y ~ x, se = TRUE, level = 0.97, col = "blue", fill = "pink2") + theme_light() + labs(title = "Relación Peso y en Estatura Mujeres", x = "Estatura", y = "Peso")
+
+ggplot(df_hombres, aes(x = Estatura, y = Peso)) + geom_point() + geom_line(aes(y = lwr), color = "red", linetype = "dashed") + geom_line(aes(y = upr), color = "red", linetype = "dashed") + geom_smooth(method = "lm", formula = y ~ x, se = TRUE, level = 0.97, col = "blue", fill = "pink2") + theme_light() + labs(title = "Relación Peso y Estatura en Hombres", x = "Estatura", y = "Peso")
+```
+
+
+
+
+
