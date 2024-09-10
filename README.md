@@ -23,6 +23,25 @@ Feel free to explore, contribute, or use these materials for educational and res
   - `Etica y Normatividad.pdf`
 
 - **`Portafolio de Implementación/`**
+  - **`Módulo 1 - Estadística/`**
+    - **`Actividad Integradora 2/`**
+    - **`Tarea 10 - Regresión Lineal/`**
+    - **`Tarea 11 - Regresión Lineal con Interacción/`**
+    - **`Tarea 12 - Regresión Lineal con Análisis de los Errores/`**
+    - **`Tarea 6 - Distribuciones Muestrales y TCL/`**
+    - **`Tarea 7 - Intervalos de Confianza/`**
+    - **`Tarea 8 - Pruebas de Hipótesis/`**
+    - **`Tarea 9 - ANOVA/`**
+  - **`Módulo 2 - Machine Learning/`**
+    - **`Machine Learning con Framework/`**
+      - `Linear_Regression_Con_FW.html`
+      - `Linear_Regression_Con_FW.ipynb`
+      - `Linear_Regression_Con_FW.pdf`
+    - **`Machine Learning sin Framework/`**
+      - `Logistic_Regression_Sin_FW.html`
+      - `Logistic_Regression_Sin_FW.ipynb`
+      - `Logistic_Regression_Sin_FW.pdf`
+
 
 - **`Reto Titanic - Machine Learning from Disaster/`**
 
