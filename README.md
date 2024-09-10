@@ -6,7 +6,7 @@ Feel free to explore, contribute, or use these materials for educational and res
 
 ## Directory Structure
 
-- **`Reto/`**: 
+- **`Reto Titanic - Machine Learning from Disaster/`**: 
 
 - **`Portafolio de Análisis/`**
 
