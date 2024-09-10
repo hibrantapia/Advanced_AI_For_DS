@@ -10,7 +10,7 @@ Feel free to explore, contribute, or use these materials for educational and res
 
 - **`Portafolio de Implementación/`**
 
-- **`Reto Titanic - Machine Learning from Disaster/`**: 
+- **`Reto Titanic - Machine Learning from Disaster/`**
 
 
 
