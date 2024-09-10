@@ -22,6 +22,7 @@ Feel free to explore, contribute, or use these materials for educational and res
   - `Análisis del Contexto y la Normatividad.pdf`
   - `Etica y Normatividad.pdf`
 
+
 - **`Portafolio de Implementación/`**
   - **`Módulo 1 - Estadística/`**
     - **`Actividad Integradora 2/`**
@@ -44,6 +45,21 @@ Feel free to explore, contribute, or use these materials for educational and res
 
 
 - **`Reto Titanic - Machine Learning from Disaster/`**
+  - **`datasets/`**
+    - `analisis_de_datos.csv`
+    - `predicciones_correctas.csv`
+    - `test.csv`
+    - `test_cleaned.csv`
+    - `train.csv`
+    - `train_cleaned.csv`
+  - `1_Procesamiento_de_Datos.ipynb`
+  - `2_Analisis_de_Datos.ipynb`
+  - `3_Regresion_Logistica.ipynb`
+  - `4_Random_Forest.ipynb`
+  - `5_Red_Neuronal.ipynb`
+  - `Presentacion - Reto Titanic - Machine Learning from Disaster.pptx`
+  - `Reporte - Reto Titanic - Machine Learning from Disaster.pdf`
+  - `README.md`
 
 
 
