@@ -7,6 +7,20 @@ Feel free to explore, contribute, or use these materials for educational and res
 ## Directory Structure
 
 - **`Portafolio de Análisis/`**
+  - **`Análisis y Reporte sobre el Desempeño de la SGDR/`**
+    - `Linear_Regression_SGDR.html`
+    - `Linear_Regression_SGDR.ipynb`
+    - `Linear_Regression_SGDR.pdf`
+    - `Valhalla23.csv`
+  - **`Módulo 1 - Estadística/`**
+    - **`Actividad Integradora 1/`**
+    - **`Tarea 1 - La Variable Discreta/`**
+    - **`Tarea 2 - La Variable Continua/`**
+    - **`Tarea 3 - Algunas Distribuciones/`**
+    - **`Tarea 4 - Explorando Bases/`**
+    - **`Tarea 5 - Transformaciones/`**
+  - `Análisis del Contexto y la Normatividad.pdf`
+  - `Etica y Normatividad.pdf`
 
 - **`Portafolio de Implementación/`**
 
